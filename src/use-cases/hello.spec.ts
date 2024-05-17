@@ -8,7 +8,7 @@ describe('Hello Use case', () => {
     sut = new HelloUseCase()
   })
 
-  it('should be return a hello ', async () => {
+  it('should return a hello ', async () => {
     const { hello } = await sut.execute({
       type: 'ok',
     })

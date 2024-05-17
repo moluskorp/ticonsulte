@@ -14,7 +14,75 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id        Int     @id @default(autoincrement())
+  legacy_id Int
+  email     String  @unique
+  username  String
+  password  String
+  api_token String
+  is_active Boolean
+  name      String?
+}
+
+model Company {
+  id            String          @id @default(uuid())
+  legacy_id     Int
+  name          String
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt()
+  Branch_office Branch_office[]
+}
+
+model Branch_office {
+  id         String     @id @default(uuid())
+  legacy_id  Int
+  name       String
+  main       Boolean
+  company    Company    @relation(fields: [companyId], references: [id])
+  cnpj       String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt()
+  companyId  String
+  Entrance   Entrance[]
+  Device     Device[]
+  Visitor    Visitor[]
+}
+
+model Entrance {
+  id              String        @id @default(uuid())
+  legacy_id       Int
+  branch_office   Branch_office @relation(fields: [branch_officeId], references: [id])
+  name            String
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt()
+  branch_officeId String
+  Device          Device[]
+}
+
+model Device {
+  id              String        @id @default(uuid())
+  legacy_id       Int
+  code            String
+  branch_office   Branch_office @relation(fields: [branch_officeId], references: [id])
+  entrance        Entrance      @relation(fields: [entranceId], references: [id])
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt()
+  branch_officeId String
+  entranceId      String
+  Visitor         Visitor[]
+}
+
+model Visitor {
+  id              String        @id @default(uuid())
+  legacy_id       Int
+  branch_office   Branch_office @relation(fields: [branch_officeId], references: [id])
+  date            DateTime
+  device          Device        @relation(fields: [deviceId], references: [id])
+  people_in       Int
+  people_out      Int
+  summarized      Boolean
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt()
+  branch_officeId String
+  deviceId        String
 }
