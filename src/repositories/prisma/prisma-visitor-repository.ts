@@ -91,7 +91,7 @@ export class PrismaVisitorRepository implements VisitorRepository {
       FROM "Visitor"
       WHERE "date" BETWEEN ${startDate} AND ${finalDate}
         AND "branch_officeId" = ${branchOfficeId}
-      GROUP BY TO_CHAR(date, 'HH24:00')
+      GROUP BY TO_CHAR(date AT TIME ZONE 'UTC-3', 'HH24:00')
       ORDER BY date
     `) as DailyResult[]
 
@@ -118,7 +118,7 @@ export class PrismaVisitorRepository implements VisitorRepository {
       FROM "Visitor"
       WHERE date BETWEEN ${startDate} AND ${endDate}
         AND "branch_officeId" = ${branchOfficeId}
-      GROUP BY TO_CHAR(date, 'YYYY-MM-DD')
+      GROUP BY TO_CHAR(date AT TIME ZONE 'UTC-3', 'YYYY-MM-DD')
       ORDER BY day
     `) as any
 
