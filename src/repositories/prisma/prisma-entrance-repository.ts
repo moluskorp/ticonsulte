@@ -10,4 +10,14 @@ export class PrismaEntranceRepository implements EntranceRepository {
 
     return entrance
   }
+
+  async findByName(name: string) {
+    const entrance = await prisma.entrance.findFirst({
+      where: {
+        name,
+      },
+    })
+
+    return entrance
+  }
 }

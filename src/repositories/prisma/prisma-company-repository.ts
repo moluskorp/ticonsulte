@@ -10,4 +10,14 @@ export class PrismaCompanyRepository implements CompanyRepository {
 
     return company
   }
+
+  async findByName(name: string) {
+    const company = await prisma.company.findFirst({
+      where: {
+        name,
+      },
+    })
+
+    return company
+  }
 }

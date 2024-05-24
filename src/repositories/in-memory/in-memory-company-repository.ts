@@ -17,4 +17,13 @@ export class InMemoryCompanyRepository implements CompanyRepository {
 
     return company
   }
+
+  async findByName(name: string) {
+    const company = this.items.find((com) => com.name === name)
+
+    if (company) {
+      return company
+    }
+    return null
+  }
 }

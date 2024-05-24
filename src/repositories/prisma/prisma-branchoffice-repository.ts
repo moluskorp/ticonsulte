@@ -10,4 +10,13 @@ export class PrismaBranchOfficeRepository implements BranchOfficeRepository {
 
     return branchOffice
   }
+
+  async findByCnpj(cnpj: string) {
+    const branchOffice = await prisma.branch_office.findFirst({
+      where: {
+        cnpj,
+      },
+    })
+    return branchOffice
+  }
 }

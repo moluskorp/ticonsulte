@@ -10,6 +10,7 @@ import { branchOfficeRoutes } from './http/controllers/branch_offices/routes'
 import { entrancesRoutes } from './http/controllers/entrances/routes'
 import { visitorsRoutes } from './http/controllers/visitors/routes'
 import { devicesRoutes } from './http/controllers/devices/routes'
+import { usersRoutes } from './http/controllers/users/routes'
 
 export const app = fastify()
 
@@ -19,9 +20,8 @@ app.register(cors, {
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
-  cookie: { cookieName: 'refreshToken', signed: false },
   sign: {
-    expiresIn: '10m',
+    expiresIn: '1d',
   },
 })
 
@@ -33,5 +33,6 @@ app.register(companiesRoutes)
 app.register(devicesRoutes)
 app.register(entrancesRoutes)
 app.register(visitorsRoutes)
+app.register(usersRoutes)
 
 app.setErrorHandler(errorHandler)

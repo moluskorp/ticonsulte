@@ -20,7 +20,7 @@ describe('Create Visitor Use Case', () => {
     companyRepository = new InMemoryCompanyRepository()
     deviceRepository = new InMemoryDeviceRepository()
     visitorRepository = new InMemoryVisitorRepository()
-    sut = new CreateVisitorUseCase(visitorRepository)
+    sut = new CreateVisitorUseCase(visitorRepository, deviceRepository)
   })
 
   it('should be able to create a company', async () => {
@@ -51,13 +51,9 @@ describe('Create Visitor Use Case', () => {
     })
 
     const { visitor } = await sut.execute({
-      branch_officeId: branch_office.id,
-      date: new Date(),
-      deviceId: device.id,
-      legacy_id: 1,
-      people_in: 10,
-      people_out: 9,
-      summarized: true,
+      event_time: new Date(),
+      rule_id: device.device_key,
+      rule_name: 'Exit',
     })
 
     expect(visitor.id).toEqual(expect.any(String))

@@ -14,14 +14,13 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  legacy_id Int
-  email     String  @unique
-  username  String
-  password  String
-  api_token String
-  is_active Boolean
-  name      String?
+  id              String        @id @default(uuid())
+  email           String        @unique
+  username        String        @unique
+  password        String
+  is_active       Boolean
+  branch_office   Branch_office @relation(fields: [branch_officeId], references: [id])
+  branch_officeId String
 }
 
 model Company {
@@ -46,6 +45,7 @@ model Branch_office {
   Entrance   Entrance[]
   Device     Device[]
   Visitor    Visitor[]
+  User       User[]
 }
 
 model Entrance {
@@ -57,6 +57,7 @@ model Entrance {
   updated_at      DateTime      @updatedAt()
   branch_officeId String
   Device          Device[]
+  Visitor         Visitor[]
 }
 
 model Device {
@@ -67,6 +68,7 @@ model Device {
   entrance        Entrance      @relation(fields: [entranceId], references: [id])
   created_at      DateTime      @default(now())
   updated_at      DateTime      @updatedAt()
+  device_key      String        @default(uuid())
   branch_officeId String
   entranceId      String
   Visitor         Visitor[]
@@ -74,10 +76,11 @@ model Device {
 
 model Visitor {
   id              String        @id @default(uuid())
-  legacy_id       Int
+  legacy_id       Int           @default(autoincrement())
   branch_office   Branch_office @relation(fields: [branch_officeId], references: [id])
   date            DateTime
   device          Device        @relation(fields: [deviceId], references: [id])
+  entrance        Entrance      @relation(fields: [entranceId], references: [id])
   people_in       Int
   people_out      Int
   summarized      Boolean
@@ -85,4 +88,5 @@ model Visitor {
   updated_at      DateTime      @updatedAt()
   branch_officeId String
   deviceId        String
+  entranceId      String
 }

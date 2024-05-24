@@ -10,4 +10,23 @@ export class PrismaDeviceRepository implements DeviceRepository {
 
     return device
   }
+
+  async findByDeviceKey(deviceKey: string) {
+    const device = await prisma.device.findFirst({
+      where: {
+        device_key: deviceKey,
+      },
+    })
+    return device
+  }
+
+  async findByName(name: string) {
+    const device = await prisma.device.findFirst({
+      where: {
+        code: name,
+      },
+    })
+
+    return device
+  }
 }

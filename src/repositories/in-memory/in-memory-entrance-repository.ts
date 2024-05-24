@@ -1,9 +1,9 @@
-import { Company, Prisma } from '@prisma/client'
+import { Entrance, Prisma } from '@prisma/client'
 import { randomUUID } from 'crypto'
 import { EntranceRepository } from '../entrance-repository'
 
 export class InMemoryEntranceRepository implements EntranceRepository {
-  public items: Company[] = []
+  public items: Entrance[] = []
   async create(data: Prisma.EntranceUncheckedCreateInput) {
     const branch_office = {
       id: data.id ?? randomUUID(),
@@ -17,5 +17,14 @@ export class InMemoryEntranceRepository implements EntranceRepository {
     this.items.push(branch_office)
 
     return branch_office
+  }
+
+  async findByName(name: string) {
+    const entrance = this.items.find((item) => item.name === name)
+
+    if (entrance) {
+      return entrance
+    }
+    return null
   }
 }

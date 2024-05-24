@@ -4,35 +4,19 @@ import { z } from 'zod'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createSchema = z.object({
-    legacy_id: z.number(),
-    date: z.date(),
-    people_in: z.number(),
-    people_out: z.number(),
-    summarized: z.boolean(),
-    branch_officeId: z.string(),
-    deviceId: z.string(),
+    rule_id: z.string(),
+    rule_name: z.string(),
+    event_time: z.date(),
   })
 
-  const {
-    legacy_id,
-    branch_officeId,
-    deviceId,
-    date,
-    people_in,
-    people_out,
-    summarized,
-  } = createSchema.parse(request.body)
+  const { rule_id, rule_name, event_time } = createSchema.parse(request.body)
 
   const createVisitorUseCase = makeCreateVisitorUseCase()
 
   await createVisitorUseCase.execute({
-    legacy_id,
-    branch_officeId,
-    deviceId,
-    date,
-    people_in,
-    people_out,
-    summarized,
+    rule_id,
+    rule_name,
+    event_time,
   })
 
   return reply.status(201).send()
