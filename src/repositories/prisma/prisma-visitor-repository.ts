@@ -85,7 +85,7 @@ export class PrismaVisitorRepository implements VisitorRepository {
 
     const results = (await prisma.$queryRaw`
       SELECT 
-        TO_CHAR(date, 'HH24:00') as date,
+        TO_CHAR(date AT TIME ZONE 'UTC-3', 'HH24:00') as date,
         SUM("people_in") as people_in,
         SUM("people_out") as people_out
       FROM "Visitor"
@@ -112,7 +112,7 @@ export class PrismaVisitorRepository implements VisitorRepository {
 
     const results = (await prisma.$queryRaw`
       SELECT
-        TO_CHAR(date, 'YYYY-MM-DD') as day,
+        TO_CHAR(date AT TIME ZONE 'UTC-3', 'YYYY-MM-DD') as day,
         SUM(people_in) as people_in,
         SUM(people_out) as people_out
       FROM "Visitor"
