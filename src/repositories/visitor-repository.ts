@@ -9,7 +9,7 @@ export type GetDayResponse = {
 export type GetDailyResponse = {
   people_in: number
   people_out: number
-  date: string
+  hora: string
 }
 
 export type GetMonthResponse = {

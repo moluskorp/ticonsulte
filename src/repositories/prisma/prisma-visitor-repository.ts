@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { VisitorRepository } from '../visitor-repository'
 
 type DailyResult = {
-  date: string
+  hora: string
   people_in: number
   people_out: number
 }
@@ -85,18 +85,18 @@ export class PrismaVisitorRepository implements VisitorRepository {
 
     const results = (await prisma.$queryRaw`
       SELECT 
-        TO_CHAR(date AT TIME ZONE 'UTC-3', 'HH24:00') as date,
+        TO_CHAR(date AT TIME ZONE 'UTC-3', 'HH24:00') as hora,
         SUM("people_in") as people_in,
         SUM("people_out") as people_out
       FROM "Visitor"
       WHERE "date" BETWEEN ${startDate} AND ${finalDate}
         AND "branch_officeId" = ${branchOfficeId}
       GROUP BY TO_CHAR(date AT TIME ZONE 'UTC-3', 'HH24:00')
-      ORDER BY date
+      ORDER BY hora
     `) as DailyResult[]
 
     const formattedResults = results.map((row) => ({
-      date: row.date,
+      hora: row.hora,
       people_in: Number(row.people_in),
       people_out: Number(row.people_out),
     }))
