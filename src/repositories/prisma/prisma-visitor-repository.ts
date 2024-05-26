@@ -10,6 +10,9 @@ type DailyResult = {
 
 export class PrismaVisitorRepository implements VisitorRepository {
   async create(data: Prisma.VisitorUncheckedCreateInput) {
+    const oldDate = new Date(data.date)
+    const newDate = oldDate.setHours(oldDate.getHours() - 3)
+    console.log(newDate)
     const visitor = await prisma.visitor.create({
       data,
     })
