@@ -29,4 +29,15 @@ export class PrismaDeviceRepository implements DeviceRepository {
 
     return device
   }
+
+  async findByTokenAndName(branch_officeId: string, name: string) {
+    const device = await prisma.device.findFirst({
+      where: {
+        branch_officeId,
+        code: name,
+      },
+    })
+
+    return device
+  }
 }

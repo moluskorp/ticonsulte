@@ -38,4 +38,15 @@ export class InMemoryDeviceRepository implements DeviceRepository {
     }
     return null
   }
+
+  async findByTokenAndName(branch_officeId: string, name: string) {
+    const device = this.items.find(
+      (item) => item.code === name && item.branch_officeId === branch_officeId,
+    )
+
+    if (device) {
+      return device
+    }
+    return null
+  }
 }

@@ -51,8 +51,9 @@ describe('Create Visitor Use Case', () => {
     })
 
     const { visitor } = await sut.execute({
+      channel_name: device.code,
       event_time: new Date(),
-      rule_id: device.device_key,
+      token: branch_office.id,
       rule_name: 'Exit',
     })
 

@@ -5,6 +5,7 @@ import { Visitor } from '@prisma/client'
 interface Request {
   camera: string
   rule_name: string
+  branch_officeId: string
 }
 
 interface Response {
@@ -17,8 +18,15 @@ export class CreateVisitorFromCamUseCase {
     private deviceRepository: DeviceRepository,
   ) {}
 
-  async execute({ camera, rule_name }: Request): Promise<Response> {
-    const device = await this.deviceRepository.findByName(camera)
+  async execute({
+    camera,
+    rule_name,
+    branch_officeId,
+  }: Request): Promise<Response> {
+    const device = await this.deviceRepository.findByTokenAndName(
+      camera,
+      branch_officeId,
+    )
 
     if (!device) {
       throw new Error('Device not found')

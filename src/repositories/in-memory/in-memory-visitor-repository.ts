@@ -1,6 +1,11 @@
 import { Prisma, Visitor } from '@prisma/client'
 import { randomUUID } from 'crypto'
-import { VisitorRepository } from '../visitor-repository'
+import {
+  GetDailyResponse,
+  GetDayResponse,
+  GetMonthResponse,
+  VisitorRepository,
+} from '../visitor-repository'
 
 export class InMemoryVisitorRepository implements VisitorRepository {
   public items: Visitor[] = []
@@ -31,5 +36,17 @@ export class InMemoryVisitorRepository implements VisitorRepository {
       return visitor
     }
     return null
+  }
+
+  async getDaily(date: Date, branchOfficeId: string) {
+    return [] as GetDailyResponse[]
+  }
+
+  async getDay(date: Date, branchOfficeId: string) {
+    return [] as GetDayResponse[]
+  }
+
+  async getMonth(date: Date, branchOfficeId: string) {
+    return [] as GetMonthResponse[]
   }
 }

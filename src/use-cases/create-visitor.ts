@@ -4,7 +4,8 @@ import { Visitor } from '@prisma/client'
 import { randomUUID } from 'crypto'
 
 interface Request {
-  rule_id: string
+  token: string
+  channel_name: string
   rule_name: string
   event_time: Date
 }
@@ -20,43 +21,26 @@ export class CreateVisitorUseCase {
   ) {}
 
   async execute({
-    rule_id,
+    token,
+    channel_name,
     rule_name,
     event_time,
   }: Request): Promise<Response> {
-    const device = await this.deviceRepository.findByDeviceKey(rule_id)
+    const device = await this.deviceRepository.findByTokenAndName(
+      token,
+      channel_name,
+    )
 
     if (!device) {
       throw new Error('Device not found')
     }
-    let oldVisitor = await this.visitorRepository.findByDeviceId(device.id)
-
-    if (!oldVisitor) {
-      oldVisitor = {
-        people_in: 0,
-        people_out: 0,
-        branch_officeId: device.branch_officeId,
-        created_at: new Date(),
-        date: new Date(),
-        deviceId: device.id,
-        id: randomUUID(),
-        legacy_id: 1234,
-        summarized: true,
-        updated_at: new Date(),
-        entranceId: device.entranceId,
-      }
-    }
 
     const visitor = await this.visitorRepository.create({
-      branch_officeId: device.branch_officeId,
+      branch_officeId: token,
       date: event_time,
       deviceId: device.id,
-      people_in:
-        rule_name === 'Exit'
-          ? oldVisitor.people_out + 1
-          : oldVisitor.people_out,
-      people_out:
-        rule_name === 'Exit' ? oldVisitor.people_in : oldVisitor.people_in + 1,
+      people_in: rule_name === 'Exit' ? 0 : 1,
+      people_out: rule_name === 'Exit' ? 1 : 0,
       summarized: true,
       entranceId: device.entranceId,
     })

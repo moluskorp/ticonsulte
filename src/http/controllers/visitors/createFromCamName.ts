@@ -9,15 +9,17 @@ export async function createFromCam(
   const createSchema = z.object({
     camera: z.string(),
     rule_name: z.string(),
+    token: z.string(),
   })
 
-  const { camera, rule_name } = createSchema.parse(request.body)
+  const { camera, rule_name, token } = createSchema.parse(request.body)
 
   const createVisitorUseCase = makeCreateVisitorFromCamUseCase()
 
   await createVisitorUseCase.execute({
     camera,
     rule_name,
+    branch_officeId: token,
   })
 
   return reply.status(201).send()
