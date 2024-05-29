@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
-import { VisitorRepository } from '../visitor-repository'
+import { GetDailyResponse, VisitorRepository } from '../visitor-repository'
 
 type DailyResult = {
   hora: string
@@ -104,7 +104,20 @@ export class PrismaVisitorRepository implements VisitorRepository {
       people_out: Number(row.people_out),
     }))
 
-    return formattedResults
+    const hourlyData = {} as any
+
+    for (let i = 0; i < 24; i++) {
+      const hour = i.toString().padStart(2, '0') + ':00'
+      hourlyData[hour] = { hora: hour, people_in: 0, people_out: 0 }
+    }
+
+    formattedResults.forEach((result) => {
+      hourlyData[result.hora] = result
+    })
+
+    const finalResults = Object.values(hourlyData) as GetDailyResponse[]
+
+    return finalResults
   }
 
   async getMonth(date: Date, branchOfficeId: string) {
