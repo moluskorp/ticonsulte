@@ -91,13 +91,13 @@ export class PrismaVisitorRepository implements VisitorRepository {
 
     const results = (await prisma.$queryRaw`
       SELECT 
-        TO_CHAR(date AT TIME ZONE 'UTC-3', 'HH24:00') as hora,
+        TO_CHAR(date, 'HH24:00') as hora,
         SUM("people_in") as people_in,
         SUM("people_out") as people_out
       FROM "Visitor"
       WHERE "date" BETWEEN ${startDate} AND ${finalDate}
         AND "branch_officeId" = ${branchOfficeId}
-      GROUP BY TO_CHAR(date AT TIME ZONE 'UTC-3', 'HH24:00')
+      GROUP BY TO_CHAR(date, 'HH24:00')
       ORDER BY hora
     `) as DailyResult[]
 
@@ -131,13 +131,13 @@ export class PrismaVisitorRepository implements VisitorRepository {
 
     const results = (await prisma.$queryRaw`
       SELECT
-        TO_CHAR(date AT TIME ZONE 'UTC-3', 'YYYY-MM-DD') as day,
+        TO_CHAR(date, 'YYYY-MM-DD') as day,
         SUM(people_in) as people_in,
         SUM(people_out) as people_out
       FROM "Visitor"
       WHERE date BETWEEN ${startDate} AND ${endDate}
         AND "branch_officeId" = ${branchOfficeId}
-      GROUP BY TO_CHAR(date AT TIME ZONE 'UTC-3', 'YYYY-MM-DD')
+      GROUP BY TO_CHAR(date, 'YYYY-MM-DD')
       ORDER BY day
     `) as any
 
