@@ -49,4 +49,8 @@ export class InMemoryDeviceRepository implements DeviceRepository {
     }
     return null
   }
+
+  async findAll() {
+    return this.items
+  }
 }

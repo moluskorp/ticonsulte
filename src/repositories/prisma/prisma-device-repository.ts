@@ -40,4 +40,9 @@ export class PrismaDeviceRepository implements DeviceRepository {
 
     return device
   }
+
+  async findAll() {
+    const devices = await prisma.device.findMany()
+    return devices
+  }
 }

@@ -30,7 +30,9 @@ export class CreateVisitorUseCase {
       channel_name,
     )
 
-    console.log({ token, channel_name })
+    const devices = await this.deviceRepository.findAll()
+
+    console.log({ token, channel_name, devices })
 
     if (!device) {
       throw new Error('Device not found')

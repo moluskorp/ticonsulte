@@ -8,4 +8,5 @@ export interface DeviceRepository {
     branch_officeId: string,
     name: string,
   ): Promise<Device | null>
+  findAll(): Promise<Device[]>
 }
