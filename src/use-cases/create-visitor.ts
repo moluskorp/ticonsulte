@@ -1,7 +1,6 @@
 import { DeviceRepository } from '@/repositories/device-repository'
 import { VisitorRepository } from '@/repositories/visitor-repository'
 import { Visitor } from '@prisma/client'
-import { randomUUID } from 'crypto'
 
 interface Request {
   token: string
@@ -30,6 +29,8 @@ export class CreateVisitorUseCase {
       token,
       channel_name,
     )
+
+    console.log({ token, channel_name })
 
     if (!device) {
       throw new Error('Device not found')
