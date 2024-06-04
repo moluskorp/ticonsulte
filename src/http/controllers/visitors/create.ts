@@ -6,7 +6,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createSchema = z.object({
     token: z.string(),
     rule_name: z.string(),
-    event_time: z.date(),
+    event_time: z.string(),
     channel_name: z.string(),
   })
 
@@ -14,12 +14,15 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     request.body,
   )
 
+  const date = new Date(event_time)
+  console.log(date)
+
   const createVisitorUseCase = makeCreateVisitorUseCase()
 
   await createVisitorUseCase.execute({
     token,
     rule_name,
-    event_time,
+    event_time: date,
     channel_name,
   })
 

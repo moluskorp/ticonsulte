@@ -21,5 +21,7 @@ export async function errorHandler(
 
   console.error(error)
 
-  return reply.status(500).send({ message: 'Internal server error' })
+  return reply
+    .status(500)
+    .send({ message: 'Internal server error', description: error.message })
 }
