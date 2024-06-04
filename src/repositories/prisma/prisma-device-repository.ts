@@ -31,14 +31,15 @@ export class PrismaDeviceRepository implements DeviceRepository {
   }
 
   async findByTokenAndName(branch_officeId: string, name: string) {
-    console.log('repositório')
-    console.log({ branch_officeId, name })
     const device = await prisma.device.findFirst({
       where: {
         branch_officeId,
         code: name,
       },
     })
+
+    console.log('repositório')
+    console.log({ device })
 
     return device
   }
