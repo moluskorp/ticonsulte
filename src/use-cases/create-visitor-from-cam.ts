@@ -23,6 +23,8 @@ export class CreateVisitorFromCamUseCase {
     rule_name,
     branch_officeId,
   }: Request): Promise<Response> {
+    console.log({ branch_officeId, camera })
+
     const device = await this.deviceRepository.findByTokenAndName(
       branch_officeId,
       camera,
