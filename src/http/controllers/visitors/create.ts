@@ -23,7 +23,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     token,
     rule_name,
     event_time: date,
-    channel_name,
+    channel_name: channel_name.trim(),
   })
 
   return reply.status(201).send()

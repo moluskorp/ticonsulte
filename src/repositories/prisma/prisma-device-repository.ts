@@ -5,7 +5,10 @@ import { DeviceRepository } from '../device-repository'
 export class PrismaDeviceRepository implements DeviceRepository {
   async create(data: Prisma.DeviceUncheckedCreateInput) {
     const device = await prisma.device.create({
-      data,
+      data: {
+        ...data,
+        code: data.code.toUpperCase(),
+      },
     })
 
     return device
@@ -34,7 +37,7 @@ export class PrismaDeviceRepository implements DeviceRepository {
     const device = await prisma.device.findFirst({
       where: {
         branch_officeId,
-        code: name,
+        code: name.toUpperCase(),
       },
     })
 
