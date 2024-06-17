@@ -15,7 +15,6 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
   )
 
   const date = new Date(event_time)
-  console.log(date)
 
   const createVisitorUseCase = makeCreateVisitorUseCase()
 

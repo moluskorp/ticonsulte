@@ -39,6 +39,9 @@ export class PrismaDeviceRepository implements DeviceRepository {
       AND UPPER("code") = ${name.toUpperCase()}
       LIMIT 1;
     `
+    console.log('findBY token')
+    console.log({ branch_officeId, name })
+    console.log({ device })
     // const device = await prisma.device.findFirst({
     //   where: {
     //     branch_officeId,
