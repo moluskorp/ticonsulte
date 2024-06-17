@@ -34,7 +34,7 @@ export class PrismaDeviceRepository implements DeviceRepository {
   }
 
   async findByTokenAndName(branch_officeId: string, name: string) {
-    const device = await prisma.$queryRaw<Device>`
+    const [device] = await prisma.$queryRaw<Device[]>`
       SELECT * FROM "Device" WHERE "branch_officeId" = ${branch_officeId} 
       AND UPPER("code") = ${name.toUpperCase()}
       LIMIT 1;
