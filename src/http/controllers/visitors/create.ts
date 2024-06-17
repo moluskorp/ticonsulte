@@ -18,6 +18,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   const createVisitorUseCase = makeCreateVisitorUseCase()
 
+  console.log('Antes do execute do Controller')
   await createVisitorUseCase.execute({
     token,
     rule_name,
