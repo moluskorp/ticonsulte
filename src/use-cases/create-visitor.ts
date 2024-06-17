@@ -25,6 +25,7 @@ export class CreateVisitorUseCase {
     rule_name,
     event_time,
   }: Request): Promise<Response> {
+    console.log({ channel_name })
     const device = await this.deviceRepository.findByTokenAndName(
       token,
       channel_name,
