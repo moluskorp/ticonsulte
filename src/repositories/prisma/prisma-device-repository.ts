@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Device, Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { DeviceRepository } from '../device-repository'
 
@@ -34,12 +34,17 @@ export class PrismaDeviceRepository implements DeviceRepository {
   }
 
   async findByTokenAndName(branch_officeId: string, name: string) {
-    const device = await prisma.device.findFirst({
-      where: {
-        branch_officeId,
-        code: name.toUpperCase(),
-      },
-    })
+    const device = await prisma.$queryRaw<Device>`
+      SELECT * FROM "Device" WHERE "branch_officeId" = ${branch_officeId} 
+      AND UPPER("code") = ${name.toUpperCase()}
+      LIMIT 1;
+    `
+    // const device = await prisma.device.findFirst({
+    //   where: {
+    //     branch_officeId,
+    //     code: name.toUpperCase(),
+    //   },
+    // })
 
     console.log('repositório')
     console.log({ device })
